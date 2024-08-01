@@ -1,0 +1,33 @@
+<?xml version='1.0'?>
+
+<launch>
+  <arg name="use_sim_time" default="false" />
+
+  <!-- Common launch -->
+  <include file="$(find-pkg-share rmf_demos)/common.launch.xml">
+    <arg name="use_sim_time" value="$(var use_sim_time)" />
+    <arg name="viz_config_file" value="$(find-pkg-share rmf_demos)/include/fleet_adapter_demo/fleet_adapter_demo.rviz" />
+    <arg name="config_file" value="$(find-pkg-share rmf_demos_maps)/fleet_adapter_demo/fleet_adapter_demo.building.yaml" />
+  </include>
+
+  <!-- TinyRobot fleet adapter -->
+  <group>
+    <include file="$(find-pkg-share rmf_demos_fleet_adapter)/launch/fleet_adapter.launch.xml">
+      <arg name="use_sim_time" value="$(var use_sim_time)" />
+      <arg name="nav_graph_file"
+        value="$(find-pkg-share rmf_demos_maps)/maps/fleet_adapter_demo/nav_graphs/0.yaml" />
+      <arg name="config_file"
+        value="$(find-pkg-share rmf_demos)/config/fleet_adapter_demo/tinyRobot_config.yaml" />
+    </include>
+  </group>
+
+
+  <group>
+    <include file="$(find-pkg-share rmf_demos_fleet_adapter)/launch/fleet_adapter.launch.xml">
+      <arg name="use_sim_time" value="$(var use_sim_time)"/>
+      <arg name="nav_graph_file" value="$(find-pkg-share rmf_demos_maps)/maps/fleet_adapter_demo/nav_graphs/1.yaml" />
+      <arg name="config_file" value="$(find-pkg-share rmf_demos)/config/fleet_adapter_demo/cleanerBotA_config.yaml"/>
+    </include>
+  </group>
+
+</launch>

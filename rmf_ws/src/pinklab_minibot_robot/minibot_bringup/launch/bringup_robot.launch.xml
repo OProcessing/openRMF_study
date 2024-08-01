@@ -1,0 +1,23 @@
+<?xml version='1.0' ?>
+
+<launch>
+    <arg name="prefix" default=""/>
+    <arg name="lidar_model" default="hokuyo"/>
+    <arg name="robot_port_name" default="/dev/ttyArduino"/>
+    <arg name="robot_baudrate" default="100000"/>
+    <arg name="params_file" default="$(find-pkg-share minibot_bringup)/config/ydlidar.yaml" />
+
+    <include file="$(find-pkg-share minibot_description)/launch/upload_robot.launch.xml">
+        <arg name="prefix" value="$(var prefix)"/>
+        <arg name="lidar_model" value="$(var lidar_model)"/>
+    </include>
+    
+    <node pkg="ydlidar_ros2_driver" exec="ydlidar_ros2_driver_node" output="screen">
+        <param name='emulate_tty' value='True'/>
+        <param from="$(var params_file)"/>
+    </node>
+
+    <node pkg="minibot_bringup" exec="minibot_bringup.py"/>
+
+
+</launch>    

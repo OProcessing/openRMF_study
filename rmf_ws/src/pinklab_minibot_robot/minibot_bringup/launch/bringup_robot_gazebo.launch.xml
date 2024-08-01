@@ -1,0 +1,11 @@
+<?xml version='1.0' ?>
+
+<launch>
+    <arg name="prefix" default=""/>
+    <arg name="world_name" default="empty.world"/>
+
+    <include file="$(find-pkg-share minibot_gazebo)/launch/bringup_gazebo.launch.xml">
+        <arg name="robot_prefix" value="$(var prefix)"/>
+        <arg name="world_name" value="$(var world_name)"/>
+    </include>
+</launch>    

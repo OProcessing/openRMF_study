@@ -1,0 +1,12 @@
+<?xml version='1.0' ?>
+
+<launch>
+    <arg name="prefix" default=""/>
+
+    <node pkg="robot_state_publisher" exec="robot_state_publisher" name='robot_state_publisher' output='screen'>
+        <param name='ignore_timestamp' value='False'/>
+        <param name='frame_prefix' value='$(var prefix)'/>
+        <param name="robot_description" value="$(command 'xacro $(find-pkg-share minibot_description)/urdf/robot.urdf.xacro')" />
+    </node>
+
+</launch> 

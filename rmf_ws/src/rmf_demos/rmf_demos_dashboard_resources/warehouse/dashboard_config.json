@@ -1,0 +1,32 @@
+{
+  "world_name": "warehouse",
+  "valid_task": [
+      "Loop",
+      "Delivery"
+  ],
+  "task": {
+      "Delivery": {
+          "option": {
+              "coke": {
+                  "pickup_place_name": "IB_3",
+                  "pickup_dispenser": "coke_dispenser",
+                  "dropoff_place_name": "OB_1",
+                  "dropoff_ingestor": "coke_ingestor"
+              }
+          }
+      },
+      "Loop": {
+          "places": [
+              "point_A1",
+              "point_A2",
+              "point_B1",
+              "point_B2"
+          ]
+      },
+      "Clean": {
+      },
+      "Station": {},
+      "Patrol": {},
+      "Charging": {}
+  }
+}

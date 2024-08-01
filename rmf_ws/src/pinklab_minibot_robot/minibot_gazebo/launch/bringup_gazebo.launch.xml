@@ -1,0 +1,30 @@
+<?xml version='1.0' ?>
+<launch>
+    <arg name="robot_name" default="minibot"/>
+    <arg name="robot_prefix" default=""/>
+    <arg name="world_name" default="empty.world"/>
+
+    <set_env name="QT_AUTO_SCREEN_SCALE_FACTOR" value="0"/>
+    <set_env name="GAZEBO_MODEL_PATH" value="/usr/share/gazebo-11/models/:$(find-pkg-share minibot_description)/../:/$(find-pkg-share minibot_gazebo)/models" />
+    
+    <include file="$(find-pkg-share gazebo_ros)/launch/gzserver.launch.py">
+        <arg name="verbose" value="true"/>
+        <arg name="physics" value="ode"/>
+        <arg name="lockstep" value="true"/>
+        <arg name="world" value="$(find-pkg-share minibot_gazebo)/worlds/$(var world_name)"/>
+    </include>
+    
+    <include file="$(find-pkg-share gazebo_ros)/launch/gzclient.launch.py"/>
+    
+    <include file="$(find-pkg-share minibot_description)/launch/upload_gazebo_robot.launch.xml">
+        <arg name="is_sim" value="true"/>
+        <arg name="prefix" value=""/>
+    </include>
+
+    <node pkg="gazebo_ros" exec="spawn_entity.py" name='spawn_robot' output='screen' args="-entity $(var robot_name) -topic robot_description -timeout 20.0 -x 0.0 -y 0.0 -package_to_model">
+        <param name='use_sim_time' value='True'/>
+    </node>
+
+    <executable cmd="ros2 control load_controller --set-state active joint_state_broadcaster" cwd="/home" output="screen"/>
+    <executable cmd="ros2 control load_controller --set-state active base_controller" cwd="/home" output="screen"/>
+</launch>    

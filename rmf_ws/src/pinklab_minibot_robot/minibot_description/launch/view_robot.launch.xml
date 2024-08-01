@@ -1,0 +1,20 @@
+<?xml version='1.0' ?>
+
+<launch>
+    <arg name="prefix" default=""/>
+    <arg name="rviz_config_file" default="$(find-pkg-share minibot_description)/rviz/view_robot.rviz"/>
+
+    <set_env name="QT_AUTO_SCREEN_SCALE_FACTOR" value="0"/>
+
+    <node pkg="rviz2" exec="rviz2" output="screen" args="-d $(var rviz_config_file)">
+    </node>
+    
+    <node pkg="robot_state_publisher" exec="robot_state_publisher" name='robot_state_publisher' output='screen'>
+        <param name='ignore_timestamp' value='False'/>
+        <param name='frame_prefix' value='$(var prefix)'/>
+        <param name="robot_description" value="$(command 'xacro $(find-pkg-share minibot_description)/urdf/robot.urdf.xacro')" />
+    </node>
+
+    <node pkg="joint_state_publisher_gui" exec="joint_state_publisher_gui" name="joint_state_publisher" output="screen"/>
+    
+</launch>    
