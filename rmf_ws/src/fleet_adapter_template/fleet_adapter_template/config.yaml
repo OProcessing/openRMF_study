@@ -1,0 +1,71 @@
+# FLEET CONFIG =================================================================
+# RMF Fleet parameters
+
+rmf_fleet:
+  name: "minibot"
+  fleet_manager:
+    prefix: "http://127.0.0.1:22016"
+    ip: "127.0.0.1"
+    port: 22016
+    user: "some_user"
+    password: "some_password"   
+  limits:
+    linear: [0.3, 0.15] # 최대 속도 약 0.3 m/s, 가속도는 0.15 m/s^2
+    angular: [1.5, 0.7] # 최대 각속도 약 1.5 rad/s, 가속도는  0.7 rad/s^2
+  profile: # Robot profile is modelled as a circle
+    footprint: 0.25 # minibot의 반지름 0.25 m
+    vicinity: 0.5 # minibot의 안전 반경 0.5 m
+  reversible: False # whether robots in this fleet can reverse
+  battery_system:
+    voltage: 12.0 # V
+    capacity: 24.0 # Ahr
+    charging_current: 5.0 # A
+  mechanical_system:
+    mass: 20.0 # kg
+    moment_of_inertia: 10.0 #kgm^2
+    friction_coefficient: 0.22
+  ambient_system:
+    power: 20.0 # W
+  tool_system:
+    power: 0.0 # W
+  recharge_threshold: 0.10 # Battery level below which robots in this fleet will not operate
+  recharge_soc: 1.0 # Battery level to which robots in this fleet should be charged up to during recharging tasks
+  publish_fleet_state: 10.0 # Publish frequency for fleet state, ensure that it is same as robot_state_update_frequency
+  account_for_battery_drain: False
+  task_capabilities: # Specify the types of RMF Tasks that robots in this fleet are capable of performing
+    loop: True
+    delivery: False
+    clean: False
+    finishing_request: "nothing" # [park, charge, nothing]
+  actions: ["teleop"]
+
+  responsive_wait: True # Should responsive wait be on/off for the whole fleet by default? False if not specified.
+
+# minibot CONFIG =================================================================
+robots:
+  minibot_1:
+    robot_config:
+      max_delay: 10.0 # allowed seconds of delay of the current itinerary before it gets interrupted and replanned
+    rmf_config:
+      robot_state_update_frequency: 1.0
+      charger:
+        waypoint: "minibot_charger_1"
+      start:
+        map_name: "L1"
+        waypoint: "minibot_charger_1"
+        orientation: 0.0 # radians
+
+
+# TRANSFORM CONFIG =============================================================
+# For computing transforms between Robot and RMF coordinate systems
+
+# Optional
+reference_coordinates:
+  rmf: [[0.2250, -0.7500],
+        [15.1750, -0.7250],
+        [15.1750, -10.7000],
+        [0.2250, -10.7000]]
+  robot: [[-7.3032002449035645, 8.602248191833496],
+          [7.363157749176025, 8.65833854675293],
+          [7.462653160095215, -1.2330856323242188],
+          [-7.4171037673950195, -1.103635549545288]]
